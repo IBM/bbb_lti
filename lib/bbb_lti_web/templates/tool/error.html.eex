@@ -1,0 +1,6 @@
+<h1 class="text-red-600 text-3xl">Errors occured while validating LTI</h1>
+<ul class="list-disc m-5">
+    <%= for msg <- lti_err_message(@err) do %>
+    <li><%= msg %></li>
+    <% end %>
+</ul>

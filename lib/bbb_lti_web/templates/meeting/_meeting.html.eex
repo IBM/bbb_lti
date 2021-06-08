@@ -1,0 +1,44 @@
+<tr>
+    <td
+        class="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 font-medium text-gray-900">
+        <p>
+            <%= readable_date(@meeting) %>
+        </p>
+        <p>
+            <%= readable_time(@meeting) %>
+            <span class="font-light text-gray-600"><%= @meeting.time_zone %></span>
+        </p>
+        <p class="my-4">
+            <%= if meeting_in_progress?(@meeting) do %>
+            <%= link "Join Now", to: Routes.meeting_path(@conn, :show, @meeting), target: "_blank", class: "bg-green-500 hover:bg-green-600 font-semibold text-white py-2 px-4 border border-green-400 hover:border-transparent rounded" %>
+            <% else %>
+            <%= relative_time(@meeting) %>
+            <x-timeuntil when="<%= @meeting.when %>"></x-timeuntil>
+            <% end %>
+        </p>
+        <p class="my-4">
+            <%= for {recording, i} <- Enum.with_index(recordings_for_meeting(@recordings, @meeting))  do %>
+            <%= link "Playback #{if i > 0, do: i+1}", to: recording.url, target: "_blank", class: "bg-transparent hover:bg-red-400 text-red-500 font-semibold hover:text-white py-2 px-4 border border-red-400 hover:border-transparent rounded mr-2" %>
+            <% end %>
+        </p>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-900">
+        <%= @meeting.meeting_name %>
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+        <%= @meeting.duration %> mins
+    </td>
+    <td class="px-6 py-4 whitespace-nowrap border-b border-gray-200 text-sm leading-5 text-gray-500">
+        <%= link "Google Calendar", to: google_cal_link(@meeting, @user), target: "_blank", class: "bg-transparent hover:bg-blue-400 text-blue-500 font-semibold hover:text-white py-2 px-4 hover:border-transparent rounded" %>
+        <span>or</span>
+        <a href="<%= outlook_link(@meeting, @user) %>" class="bg-transparent hover:bg-blue-400 text-blue-500 font-semibold
+    hover:text-white py-2 px-4 hover:border-transparent rounded">iCal/Outlook</a>
+    </td>
+    <%= if is_instructor?(@user) do %>
+    <td
+        class="px-6 py-4 whitespace-nowrap text-right border-b border-gray-200 text-sm leading-5 font-medium">
+        <span><%= link "Edit", to: Routes.meeting_path(@conn, :edit, @meeting), class: "text-indigo-600 hover:text-indigo-900 mx-1" %></span>
+        <span><%= link "Delete", to: Routes.meeting_path(@conn, :delete, @meeting), class: "text-red-600 hover:text-red-900 mx-1", method: :delete, data: [confirm: "Are you sure?"] %></span>
+    </td>
+    <% end %>
+</tr>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Virtual Classroom</title>
+</head>
+
+<body>
+    <div class="container">
+        <main role="main">
+            <div class="flex h-screen">
+                <div class="m-auto">
+                    <h1 class="text-2xl text-center">401</h1>
+                    <h2 class="text-center">Please launch Virtual Classroom using LTI</h2>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

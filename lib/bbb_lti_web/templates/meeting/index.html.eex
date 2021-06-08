@@ -1,0 +1,46 @@
+<div class="flex flow-row justify-between">
+  <h2 class="font-medium text-xl">Upcoming Sessions</h2>
+  <%= if is_instructor?(@user) do %>
+  <%= link "Schedule a Session", to: Routes.meeting_path(@conn, :new), class: "inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition ease-in-out duration-150" %>
+  <% end %>
+</div>
+
+<div class="flex flex-col my-4">
+  <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+    <div class="align-middle inline-block min-w-full shadow-sm overflow-hidden sm:rounded-lg border-gray-200">
+      <table class="min-w-full">
+        <%= render "_table_head.html", user: @user %>
+        <tbody class="bg-white">
+          <%= if length(upcoming_meetings(@meetings)) == 0 do %>
+          <tr>
+            <td class="text-gray-700 font-medium text-sm p-5">No sessions scheduled here, yet.</td>
+          </tr>
+          <% end %>
+          <%= render_many upcoming_meetings(@meetings), BbbLtiWeb.MeetingView, "_meeting.html", recordings: @recordings, user: @user, conn: @conn %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%= if length(past_meetings(@meetings)) > 0 do %>
+<h2 class="font-medium text-xl mt-12">Past Sessions</h2>
+
+<div class="flex flex-col my-4">
+  <div class="-my-2 py-2 overflow-x-auto sm:-mx-6 sm:px-6 lg:-mx-8 lg:px-8">
+    <div class="align-middle inline-block min-w-full shadow-sm overflow-hidden sm:rounded-lg border-gray-200">
+      <table class="min-w-full">
+        <%= render "_table_head.html", user: @user %>
+        <tbody class="bg-white">
+          <%= if length(@meetings) == 0 do %>
+          <tr>
+            <td class="text-gray-700 font-medium text-sm p-5">No sessions scheduled here, yet.</td>
+          </tr>
+          <% end %>
+          <%= render_many past_meetings(@meetings), BbbLtiWeb.MeetingView, "_meeting.html", recordings: @recordings, user: @user, conn: @conn %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+<% end %>

@@ -1,0 +1,12 @@
+<h1 class="font-bold text-2xl">Edit Session</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.meeting_path(@conn, :update, @meeting)) %>
+
+<script>
+    /* set default values for datetime */
+    selectedTimeZone = "<%=@meeting.time_zone%>";
+    document.querySelector('#meeting_time_zone').value = selectedTimeZone;
+    document.querySelector('#meeting_time_zone_local').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    rawDate = "<%= if assigns[:meeting], do: DateTime.to_iso8601(@meeting.when), else: nil %>";
+    existingDate = new Date( rawDate.split(/[-T.]/).slice(0,3).join('/') + ' ' + rawDate.split(/[-T.]/)[3] );
+</script>

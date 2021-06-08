@@ -1,0 +1,32 @@
+<nav class="bg-white shadow-sm">
+    <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
+        <div class="flex justify-between h-16">
+            <div x-data="{ path: location.pathname }" class="flex sm:space-x-6">
+                <a class="mr-2 sm:mr-0" href="/meetings">
+                    <img class="h-16" src="<%= Routes.static_path(@conn, "/images/IBM-Skills-Network-Logo.png") %>">
+                </a>
+                <a href="/meetings"
+                    class="transition inline-flex space-x-1 items-center px-1 pt-1 font-medium text-gray-500 hover:text-indigo-500"
+                    :class="{ 'text-gray-800': path == '/meetings' }">
+                    <svg class="h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M3 10h18M3 14h18m-9-4v8m-7 0h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
+                    </svg>
+                    </svg>
+                    <span>Sessions</span>
+                </a>
+                <a href="/calendar"
+                    class="transition inline-flex space-x-1 items-center px-1 pt-1 font-medium text-gray-500 hover:text-indigo-500"
+                    :class="{ 'text-gray-800': path == '/calendar' }">
+                    <svg class="h-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                    </svg>
+                    <span>Calendar</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>

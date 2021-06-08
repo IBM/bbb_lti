@@ -1,0 +1,153 @@
+<%= form_for @changeset, @action, fn f -> %>
+<%= if @changeset.action do %>
+<div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative">
+  <p>Oops, something went wrong! Please check the errors below.</p>
+</div>
+<% end %>
+
+<div>
+  <div class="border-t border-gray-200">
+
+    <div class="mt-6 grid grid-cols-1 gap-y-6 gap-x-4 sm:grid-cols-8">
+      <div class="sm:col-span-3">
+        <label class="block text-sm font-medium leading-5 text-gray-700">
+          Session Name
+          <div class="mt-1 rounded-md shadow-sm">
+            <%= text_input f, :meeting_name, class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md", autofocus: true, required: true %>
+          </div>
+        </label>
+        <%= error_tag f, :meeting_name %>
+      </div>
+    </div>
+
+    <div class="sm:col-span-2">
+      <%= label f, :time_zone, class: "block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2" %>
+      <div class="mt-1 sm:mt-0">
+        <%= select f, :time_zone, Timex.timezones(), class: "shadow-sm focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md" %>
+        <%= error_tag f, :time_zone %>
+      </div>
+        <%= text_input f, :time_zone_local, class: "hidden" %>
+    </div>
+
+    <div x-data="datetimePicker()" x-init="initFlatpickr" class="sm:col-span-2">
+      <%= label f, :when, class: "block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2" %>
+      <div class="mt-1 sm:mt-0">
+        <%= datetime_local_input f, :when, id: "datetime-picker", class: "form-input block sm:text-sm sm:leading-5 shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md w-full sm:w-1/3" %>
+      </div>
+      <p class="bg-yellow-50 text-yellow-700 px-4 py-3 rounded mt-2" x-show.transition="showPastAlert" role="alert">
+        Heads up! The date you selected is in the past.
+      </p>
+    </div>
+
+    <%= label f, :duration, "Duration (minutes)", class: "block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2" %>
+    <div x-data="numberInputComponent(<%= if assigns[:meeting], do: @meeting.duration, else: 60 %>)"
+      class="sm:col-span-2 flex flex-row rounded-lg bg-transparent">
+      <button type="button" @click.prevent="decrement"
+        class="transition duration-100 ease-in-out bg-gray-100 text-gray-700 hover:text-white hover:bg-indigo-600 h-full w-10 rounded-l-md cursor-pointer border">
+        <span class="m-auto text-2xl align-text-bottom">−</span>
+      </button>
+      <%= number_input f, :duration, class: "z-10 sm:text-sm text-center text-gray-700 w-12 border-gray-300 border-t border-b border-l-0 border-r-0 p-0 focus:ring-0 focus:border-gray-300", "x-model": "minutes", min: "1", max: "360" %>
+      <button type="button" @click.prevent="increment"
+        class="transition duration-100 ease-in-out bg-gray-100 text-gray-700 hover:text-white hover:bg-indigo-600 h-full w-10 rounded-r-md cursor-pointer border focus:ring-0">
+        <span class="m-auto text-2xl align-text-bottom">+</span>
+      </button>
+      <%= error_tag f, :duration %>
+    </div>
+
+    <div class="mt-8 border-t border-gray-100 pt-8">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Presentation (Optional)
+        </h3>
+        <p class="mt-1 text-sm leading-5 text-gray-500">
+          You can specify a URL below if you would like a presentation to be loaded when your session starts.
+        </p>
+      </div>
+      <div class="mt-2">
+        <%= label f, :presentation_url, class: "block text-sm font-medium leading-5 text-gray-700 sm:mt-px sm:pt-2" %>
+        <div class="mt-1 flex rounded-md">
+          <span
+            class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 sm:text-sm">
+            https://
+          </span>
+          <%= text_input f, :presentation_url, id: "presentation_url", class: "flex-1 focus:ring-indigo-500 focus:border-indigo-500 block max-w-md rounded-none rounded-r-md sm:text-sm border-gray-300" %>
+          <%= link "Check Link", to: "", id: "check_link_button", target: "_blank", class: "bg-transparent hover:bg-blue-400 text-blue-500 font-semibold hover:text-white py-2 px-4 border border-blue-400 hover:border-transparent rounded-md invisible mx-2" %>
+        </div>
+        <%= error_tag f, :presentation_url %>
+      </div>
+    </div>
+
+    <div class="mt-8 border-t border-gray-100 pt-8">
+      <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          Additional Options
+        </h3>
+        <p class="mt-1 text-sm leading-5 text-gray-500">
+          These options will allow your session to run as you want.
+        </p>
+      </div>
+      <div class="mt-2">
+        <fieldset>
+          <div class="mt-4">
+            <div class="relative flex items-start">
+              <div class="absolute flex items-center h-5">
+                <%= checkbox f, :auto_start_recording, class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" %>
+              </div>
+              <div class="pl-7 text-sm leading-5">
+                <%= label f, :auto_start_recording, class: "font-medium text-gray-700" %>
+                <p class="text-gray-500">If checked, sessions will be recorded automatically
+                </p>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="relative flex items-start">
+                <div class="absolute flex items-center h-5">
+                  <%= checkbox f, :webcams_only_for_moderator, class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" %>
+                </div>
+                <div class="pl-7 text-sm leading-5">
+                  <%= label f, :webcams_only_for_moderator, class: "font-medium text-gray-700" %>
+                  <p class="text-gray-500">If checked, student's webcam video will only be visible to instructors
+                  </p>
+                </div>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="relative flex items-start">
+                <div class="absolute flex items-center h-5">
+                  <%= checkbox f, :mute_on_start, class: "focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" %>
+                </div>
+                <div class="pl-7 text-sm leading-5">
+                  <%= label f, :mute_on_start, class: "font-medium text-gray-700" %>
+                  <p class="text-gray-500">If checked, user's microphones will be muted when they first join
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      </div>
+    </div>
+
+    <div class="mt-8 border-t border-gray-200 pt-5">
+      <div class="flex justify-end">
+        <span class="inline-flex rounded-md shadow-sm">
+          <%= link "Cancel", to: Routes.meeting_path(@conn, :index), class: "py-2 px-4 border border-gray-300 rounded-md text-sm leading-5 font-medium text-gray-700 hover:text-gray-500 focus:outline-none focus:border-blue-300 focus:ring-blue active:bg-gray-50 active:text-gray-800 transition duration-150 ease-in-out" %>
+        </span>
+        <span class="ml-3 inline-flex rounded-md shadow-sm">
+          <%= submit "Save", class: "inline-flex justify-center py-2 px-4 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:ring-indigo active:bg-indigo-700 transition duration-150 ease-in-out" %>
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <% end %>
+
+  <script>
+    /* set default values for datetime */
+    document.querySelector('#meeting_time_zone').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    document.querySelector('#meeting_time_zone_local').value = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    existingDate = "<%= if assigns[:meeting], do: DateTime.to_iso8601(@meeting.when), else: nil %>";
+  </script>
+
+  <script src="<%= Routes.static_path(@conn, "/js/duration_stepper.js") %>"></script>
+  <script src="<%= Routes.static_path(@conn, "/js/check_link.js") %>"></script>

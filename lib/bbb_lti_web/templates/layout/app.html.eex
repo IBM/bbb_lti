@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>LTI | Big Blue Button</title>
+  <%= csrf_meta_tag() %>
+  <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>" />
+  <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
+</head>
+
+<body>
+  <%= render "_header.html", assigns %>
+  <main role="main" class="max-w-7xl mx-auto px-1 py-8 sm:p-8">
+    <%= if get_flash(@conn, :success) do %>
+    <p class="bg-green-50 text-green-700 px-4 py-3 mb-6 rounded-lg relative" role="alert">
+      <%= get_flash(@conn, :success) %></p>
+    <% end %>
+    <%= if get_flash(@conn, :info) do %>
+    <p class="bg-yellow-50 text-yellow-700 px-4 py-3 mb-6 rounded-lg relative" role="alert">
+      <%= get_flash(@conn, :info) %></p>
+    <% end %>
+    <%= if get_flash(@conn, :error) do %>
+    <p class="bg-red-50 text-red-700 px-4 py-3 mb-6 rounded-lg relative" role="alert">
+      <%= get_flash(@conn, :error) %></p>
+    <% end %>
+    <%= @inner_content %>
+  </main>
+</body>
+
+</html>

@@ -1,0 +1,60 @@
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-y-4 gap-x-2">
+  <div class="col-span-2 flex flex-col w-full">
+    <div class="mb-2 flex align-bottom">
+      <a href="#" phx-click="prev-month" class="p-2 bg-gray-100 hover:bg-indigo-500 hover:text-white text-sm leading-5 font-medium rounded-md transition duration-150 ease-in-out">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </a>
+      <h3 class="text-gray-700 text-lg pt-1 w-36 font-medium text-center">
+        <%= Timex.format!(@current_date, "%B %Y", :strftime) %>
+      </h3>
+      <a href="#" phx-click="next-month" class="p-2 bg-gray-100 hover:bg-indigo-500 hover:text-white text-sm leading-5 font-medium rounded-md transition duration-150 ease-in-out">
+        <svg class="w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+    <table class="border border-gray-200 rounded-lg shadow-sm">
+      <thead>
+        <tr>
+          <%= for day_name <- @day_names do %>
+          <th class="text-xs p-2 text-gray-600 border border-gray-200">
+            <%= day_name %>
+          </th>
+          <% end %>
+        </tr>
+      </thead>
+      <tbody>
+      <%= for week <- @week_rows do %>
+      <tr>
+      <%= for day <- week do %>
+        <%= live_component @socket, BbbLtiWeb.CalendarDayComponent, day: day, current_date: @current_date, meetings: meetings_for_day(@meetings, day, @user_tz), user_tz: @user_tz %>
+      <% end %>
+      </tr>
+      <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+    <div class="border-b border-gray-200 pb-5">
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        Upcoming Sessions
+      </h3>
+    </div>
+    <div class="sm:rounded-md mt-1">
+      <ul class="divide-y divide-gray-200">
+        <%= if length(upcoming_meetings(@meetings)) > 0 do %>
+        <%= for meeting <- upcoming_meetings(@meetings) do %>
+          <li class="bg-white shadow-sm ">
+            <%= live_component @socket, BbbLtiWeb.MeetingComponent, meeting: meeting %>
+          </li>
+          <% end %>
+        <% else %>
+          <p>No upcoming meetings.</p>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</div>
