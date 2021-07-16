@@ -1,8 +1,17 @@
 # Big Blue Button LTI
 
-This tool allows Big Blue Button meetings to be scheduled by instructors. Meetings are created with simple CRUD operations and launched using the Big Blue Button API.
+This tool allows BigBlueButton meetings to be scheduled by instructors. Meetings are created with simple CRUD operations and launched using the BigBlueButton API.
 
-## To start your Phoenix server:
+## Why?
+
+BigBlueButton already has a capable [LTI plugin](https://github.com/bigbluebutton/bigbluebutton/tree/develop/bbb-lti) out of the box but it was missing some features that we needed to enable BigBlueButton as an LTI provider for our applications. We extended the functionality of the default LTI provider and added some of the features below:
+
+- Schedule meetings inside the LTI service, this includes links to add to your calendar.
+- Add settings (autostart recording, default presentation url, mute on start, etc) to each meeting when scheduling.
+- Calendar view of past, present, and upcoming meetings.
+- API and admin UI to dynamically create LTI consumer credentials. We don't know all of the consumers ahead of time and we don't want to share one set of credentials between consumers.
+
+## Development
 
   * Create and fill a `.env` file based on `.env.example`
   * `source .env`
@@ -24,13 +33,3 @@ Now you can visit [`localhost:4000/meetings`](http://localhost:4000/meetings) fr
     ```
     This will authenticate your portal with your local instance of VC LTI
   * Follow [this guide](https://support.skillsnetwork.site/knowledgebase/articles/1940794-how-do-i-setup-virtual-classroom-for-a-course)
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
