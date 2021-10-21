@@ -9,7 +9,7 @@
   "dependencies": {
     "@tailwindcss/aspect-ratio": "^0.2.0",
     "@tailwindcss/forms": "^0.2.1",
-    "@tailwindcss/typography": "^0.4.0",
+    "@tailwindcss/typography": "0.4.0",
     "alpinejs": "^2.8.0",
     "autoprefixer": "^10.2.4",
     "flatpickr": "^4.6.9",
@@ -28,11 +28,12 @@
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
     "mini-css-extract-plugin": "^0.9.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^6.0.1",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
-    "sass-loader": "^8.0.2",
+    "sass": "^1.43.3",
+    "sass-loader": "^12.2.0",
     "terser-webpack-plugin": "^2.3.2",
-    "webpack": "4.41.5",
+    "webpack": "^5.59.1",
     "webpack-cli": "^3.3.2"
   }
 }

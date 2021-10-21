@@ -1,4 +1,4 @@
-FROM elixir:alpine AS builder
+FROM us.icr.io/skills-network/elixir:latest AS builder
 
 # The following are build arguments used to change variable parts of the image.
 # The version of the application we are building (required).
