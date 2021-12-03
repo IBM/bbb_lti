@@ -49,8 +49,10 @@ FROM alpine:latest
 
 RUN apk update && \
   apk add --no-cache \
-  bash \
-  openssl-dev
+  openssl-dev \
+  libstdc++ \
+  libgcc \
+  ncurses
 
 ENV REPLACE_OS_VARS=true \
   APP_NAME=bbb_lti
