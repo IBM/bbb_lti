@@ -46,7 +46,8 @@ defmodule BbbLti.Validator do
 
   defp generate_signature(secret, basestring) do
     :sha
-    |> :crypto.hmac(
+    |> :crypto.mac(
+      :hmac,
       percent_encode(secret) <> "&",
       basestring
     )
